@@ -27,6 +27,7 @@ module.exports = (_, { mode }) => ({
       },
     ],
   },
+  devtool: mode === 'development' ? 'eval-source-map' : 'source-map',
   devServer: {
     contentBase: './public',
     host: '0.0.0.0',

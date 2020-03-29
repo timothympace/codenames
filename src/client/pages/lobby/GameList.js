@@ -14,7 +14,7 @@ function GameList({ games = [] }: Props) {
         const { id } = game;
 
         return (
-          <li>
+          <li key={id}>
             <span>{id}</span>
             {' '}
             <span>

@@ -3,6 +3,7 @@
 import React from 'react';
 import { css, StyleSheet } from 'aphrodite';
 import { RED_AGENT, BLUE_AGENT, INNOCENT_BYSTANDER, ASSASSIN } from '../../../config/constants';
+import mavenPro from '../../fonts/mavenPro';
 
 type Props = {
   word: string,
@@ -11,7 +12,7 @@ type Props = {
 };
 
 const getAgentColor = (agent, agentIndex, profile = false) => {
-  let urlPiece = profile ? '-profile' : '';
+  const urlPiece = profile ? '-profile' : '';
 
   switch (agent) {
     case RED_AGENT:
@@ -35,7 +36,9 @@ export default function Card({ word, agent, agentIndex, revealed, onClick }: Pro
       cursor: !isSpymaster && !revealed ? 'pointer' : 'auto',
     },
     silhouette: {
-      background: isSpymaster ? getAgentColor(agent, agentIndex, true) : 'url("/images/profile.jpg")',
+      background: isSpymaster
+        ? getAgentColor(agent, agentIndex, true)
+        : 'url("/images/profile.jpg")',
       backgroundSize: 'contain',
     },
     cardBack: {
@@ -45,12 +48,16 @@ export default function Card({ word, agent, agentIndex, revealed, onClick }: Pro
   });
 
   return (
-    <div className={css(styles.card, dynamicStyles.card)} onClick={!isSpymaster && (() => onClick(word))} title={word}>
+    <div
+      className={css(styles.card, dynamicStyles.card)}
+      onClick={!isSpymaster && (() => onClick(word))}
+      title={word}
+    >
       <div className={css(styles.face, styles.cardFront, dynamicStyles.cardFront)}>
         <div className={css(styles.cardFrontInner)}>
           <div className={css(styles.cardTop)}>
             <div className={css(styles.flippedWord)}>{word}</div>
-            <div className={css(styles.silhouette, dynamicStyles.silhouette)}></div>
+            <div className={css(styles.silhouette, dynamicStyles.silhouette)} />
           </div>
           <div className={css(styles.mainWord)}>{word}</div>
         </div>
@@ -67,6 +74,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     transition: 'transform .5s ease',
     transformStyle: 'preserve-3d',
+    fontFamily: [mavenPro],
   },
   face: {
     position: 'absolute',
@@ -78,7 +86,6 @@ const styles = StyleSheet.create({
     borderRadius: '15px',
   },
   cardFront: {
-    fontFamily: 'Maven Pro',
     textTransform: 'uppercase',
     backgroundColor: '#e4d7c6',
     zIndex: 10,
