@@ -1,4 +1,4 @@
-export default Object.freeze([
+export default [
   { front: 'Hollywood', back: 'Well' },
   { front: 'Screen', back: 'Fair' },
   { front: 'Play', back: 'Tooth' },
@@ -199,4 +199,4 @@ export default Object.freeze([
   { front: 'Jam', back: 'Organ' },
   { front: 'Copper', back: 'Jack' },
   { front: 'Beach', back: 'Charge' },
-]);
+];

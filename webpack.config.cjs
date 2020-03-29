@@ -34,6 +34,10 @@ module.exports = (_, { mode }) => ({
       '/api': {
         target: 'http://localhost:8086',
       },
+      '/wsapi': {
+        target: 'http://localhost:8086',
+        ws: true,
+      },
     },
   },
   plugins: [

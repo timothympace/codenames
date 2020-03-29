@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "sideEffects": false,
-  "type": "module",
   "scripts": {
-    "dev:server": "nodemon src/server/index.js",
+    "server": "nodemon -r esm src/server/index.js",
+    "client": "node -r esm ./node_modules/.bin/webpack-dev-server --config webpack.config.cjs --mode production",
+    "dev:server": "nodemon -r esm src/server/index.js",
     "dev:client": "node -r esm ./node_modules/.bin/webpack-dev-server --config webpack.config.cjs --mode development --hot",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --watch --no-cache"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
   },
   "homepage": "https://github.com/timothympace/codenames#readme",
   "dependencies": {
+    "@reduxjs/toolkit": "^1.3.2",
     "aphrodite": "^2.4.0",
     "esm": "^3.2.25",
     "express": "^4.17.1",

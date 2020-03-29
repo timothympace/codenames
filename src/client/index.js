@@ -3,10 +3,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { applyMiddleware, createStore } from 'redux';
-import thunkMiddleware from 'redux-thunk';
+import { configureStore } from '@reduxjs/toolkit';
 
-import reducers from '../reducers';
+import reducer from '../redux';
 import Codenames from './Codenames';
 
 type ApplicationState = {
@@ -34,10 +33,13 @@ type ApplicationState = {
 const initialState: ApplicationState = {
   lobby: {
     games: [],
-  }
+  },
 };
 
-const store = createStore(reducers, initialState, applyMiddleware(thunkMiddleware));
+const store = configureStore({
+  reducer,
+  preloadedState: initialState,
+});
 
 ReactDOM.render(
   <Provider store={store}>

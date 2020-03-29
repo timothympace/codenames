@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   setupFilesAfterEnv: ['<rootDir>/config/jestSetup.js'],
   testRegex: '__tests__/.*.js$',
   testURL: 'http://localhost',

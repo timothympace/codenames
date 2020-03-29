@@ -33,7 +33,8 @@ export default function useWebSocket(uri: string, onMessage: () => any) {
         // flush send buffer
       });
 
-      wsRef.current.addEventListener('close', connect);
+      // TODO, figure out reconnects.
+      //wsRef.current.addEventListener('close', connect);
 
       wsRef.current.addEventListener('message', (...args) => {
         onMesssageRef.current(...args);
@@ -48,6 +49,8 @@ export default function useWebSocket(uri: string, onMessage: () => any) {
         instance.count -= 1;
 
         if (instance.count === 0) {
+          wsRef.current.removeEventListener('close', connect);
+          delete sockets[uri];
           wsRef.current.close();
         }
       }

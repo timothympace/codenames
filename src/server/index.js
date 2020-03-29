@@ -1,11 +1,14 @@
 import express from 'express';
 import expressWs from 'express-ws';
-import { createStore } from 'redux/es/redux.mjs';
+import { configureStore } from '@reduxjs/toolkit';
 import watch from 'redux-watch';
-import createGame from '../actions/createGame.js';
-import reducers from '../reducers/index.js';
+import { createGame } from '../redux/games';
+import reducer from '../redux';
+import update from 'immutability-helper';
 
-const store = createStore(reducers);
+const store = configureStore({
+  reducer,
+});
 const { dispatch } = store;
 
 const app = express();
@@ -25,14 +28,14 @@ app.get('/api/games', (req, res) => {
   res.send(JSON.stringify(Object.values(store.getState().games)));
 });
 
-app.ws('/games/:id', (ws, req) => {
+app.ws('/wsapi/games/:id', (ws, req) => {
   const { id } = req.params;
   const w = watch(store.getState, `games.${id}`);
   store.subscribe(
     w(newVal => {
       try {
         ws.send(JSON.stringify(newVal));
-      } catch(e) {}
+      } catch (e) {}
     })
   );
 
@@ -42,7 +45,8 @@ app.ws('/games/:id', (ws, req) => {
   };
 
   const game = store.getState().games[id];
+
   try {
     ws.send(JSON.stringify(game));
-  } catch(e) {}
+  } catch (e) {}
 });

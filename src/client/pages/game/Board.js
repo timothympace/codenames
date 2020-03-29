@@ -3,21 +3,24 @@
 import React, { useState } from 'react';
 import { css, StyleSheet } from 'aphrodite';
 import Card from './Card';
-import useWebSocket from '../../../hooks/useWebSocket';
+import useWebSocket from '../../hooks/useWebSocket';
+import { flipCard } from '../../../redux/games';
 
 type Props = {
   board: Array<string>,
 };
 
 export default function Board({ gameId, board }: Props) {
-  const sendMessage = useWebSocket(`ws://localhost:8086/games/${gameId}`, () => {});
+  const sendMessage = useWebSocket(`ws://${window.location.host}/wsapi/games/${gameId}`, () => {});
 
   const handleClick = word => {
     sendMessage(
-      JSON.stringify({
-        type: 'FLIP_CARD',
-        payload: { id: gameId, word },
-      })
+      JSON.stringify(
+        flipCard({
+          id: gameId,
+          word,
+        })
+      )
     );
   };
 
@@ -27,9 +30,9 @@ export default function Board({ gameId, board }: Props) {
 
   return (
     <div className={css(styles.board)}>
-      {board.map(({ word, agent, revealed }) => {
+      {board.map(({ word, agent, agentIndex, revealed }) => {
         return (
-          <Card key={word} word={word} agent={agent} revealed={revealed} onClick={handleClick} />
+          <Card key={word} word={word} agent={agent} agentIndex={agentIndex} revealed={revealed} onClick={handleClick} />
         );
       })}
     </div>
