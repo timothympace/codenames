@@ -1,7 +1,9 @@
 import rotate2d from '../rotate2d';
 
 describe('rotate2d', () => {
-  const input = [
+  const input3x3 = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+  const input5x5 = [
     'a',
     'b',
     'c',
@@ -30,10 +32,10 @@ describe('rotate2d', () => {
   ];
 
   it('ignores 0 rorations', () => {
-    expect(rotate2d(input, 0)).toEqual(input);
+    expect(rotate2d(input5x5, 0)).toEqual(input5x5);
   });
 
-  it('rotates by 90 degrees', () => {
+  it('rotates a 5x5 by 90 degrees', () => {
     const expected = [
       'u',
       'p',
@@ -62,11 +64,11 @@ describe('rotate2d', () => {
       'e',
     ];
 
-    expect(rotate2d(input, 1)).toEqual(expected);
-    expect(rotate2d(input, 5)).toEqual(expected);
+    expect(rotate2d(input5x5, 1)).toEqual(expected);
+    expect(rotate2d(input5x5, 5)).toEqual(expected);
   });
 
-  it('rotates by 180 degrees', () => {
+  it('rotates a 5x5 by 180 degrees', () => {
     const expected = [
       'y',
       'x',
@@ -95,11 +97,11 @@ describe('rotate2d', () => {
       'a',
     ];
 
-    expect(rotate2d(input, 2)).toEqual(expected);
-    expect(rotate2d(input, 6)).toEqual(expected);
+    expect(rotate2d(input5x5, 2)).toEqual(expected);
+    expect(rotate2d(input5x5, 6)).toEqual(expected);
   });
 
-  it('rotates by 270 degrees', () => {
+  it('rotates a 5x5 by 270 degrees', () => {
     const expected = [
       'e',
       'j',
@@ -128,7 +130,22 @@ describe('rotate2d', () => {
       'u',
     ];
 
-    expect(rotate2d(input, 3)).toEqual(expected);
-    expect(rotate2d(input, 7)).toEqual(expected);
+    expect(rotate2d(input5x5, 3)).toEqual(expected);
+    expect(rotate2d(input5x5, 7)).toEqual(expected);
+  });
+
+  it('rotates a 3x3 by 90 degrees', () => {
+    const expected = [7, 4, 1, 8, 5, 2, 9, 6, 3];
+    expect(rotate2d(input3x3, 1)).toEqual(expected);
+  });
+
+  it('rotates a 3x3 by 180 degrees', () => {
+    const expected = [9, 8, 7, 6, 5, 4, 3, 2, 1];
+    expect(rotate2d(input3x3, 2)).toEqual(expected);
+  });
+
+  it('rotates a 3x3 by 270 degrees', () => {
+    const expected = [3, 6, 9, 2, 5, 8, 1, 4, 7];
+    expect(rotate2d(input3x3, 3)).toEqual(expected);
   });
 });
