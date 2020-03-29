@@ -35,27 +35,27 @@ const styles = StyleSheet.create({
     left: '10px',
     top: '-14px',
     height: '81px',
-    background: 'linear-gradient(-38deg, transparent, #ffffff1c 50%, #ffffffc9)',
+    background: 'linear-gradient(-38deg, #FFFFFF00, #FFFFFF1C 50%, #FFFFFFC9)',
   },
   gradient2: {
     height: '157px',
     top: '-27px',
     left: '19px',
     background:
-      'linear-gradient(-38deg, rgba(255, 255, 255, 0.55), transparent 50%, transparent 60%, #ffffffc9)',
+      'linear-gradient(-38deg, #FFFFFF8C, #FFFFFF00 50%, #FFFFFF00 60%, #FFFFFFC9)',
   },
   gradient3: {
     height: '196px',
     top: '-32px',
     left: '94px',
     background:
-      'linear-gradient(-38deg, rgba(255, 255, 255, 0.55), transparent 20%, transparent 70%, rgba(255, 255, 255, 0.79))',
+      'linear-gradient(-38deg, #FFFFFF8C, #FFFFFF00 20%, #FFFFFF00 70%, #FFFFFFC9)',
   },
   gradient4: {
     height: '179px',
     top: '-23px',
     left: '140px',
     background:
-      'linear-gradient(-38deg, rgba(255, 255, 255, 0.55), transparent 20%, transparent 70%, rgba(255, 255, 255, 0.79))',
+      'linear-gradient(-38deg, #FFFFFF8C, #FFFFFF00 20%, #FFFFFF00 70%, #FFFFFFC9)',
   },
 });
