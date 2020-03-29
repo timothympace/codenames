@@ -4,6 +4,7 @@ import React from 'react';
 import { css, StyleSheet } from 'aphrodite';
 import AgentProfile from './AgentProfile';
 import GradientOverlay from './GradientOverlay';
+import HolePunch from "./HolePunch";
 
 type Props = {
   word: string,
@@ -17,6 +18,9 @@ export default function CardFront({ word, spymaster, agent, agentIndex }: Props)
     <div className={css(styles.face, styles.cardFront)}>
       <div className={css(styles.wrapper)}>
         <div className={css(styles.cardFrontInner)}>
+          <div className={css(styles.holePunch)}>
+            <HolePunch />
+          </div>
           <div className={css(styles.cardTop)}>
             <div className={css(styles.flippedWord)}>{word}</div>
             <AgentProfile agent={agent} agentIndex={agentIndex} spymaster={spymaster} />
@@ -84,9 +88,16 @@ const styles = StyleSheet.create({
     transform: 'rotate(180deg)',
     fontSize: '20px',
   },
-
   cardTop: {
     display: 'flex',
     height: '54%',
+  },
+  holePunch: {
+    position: 'absolute',
+    top: '-2px',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    width: '25px',
+    height: '25px',
   },
 });
