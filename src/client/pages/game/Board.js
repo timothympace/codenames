@@ -49,8 +49,9 @@ export default function Board({ gameId, board }: Props) {
 const styles = StyleSheet.create({
   board: {
     display: 'grid',
-    gridTemplateColumns: '2.6in 2.6in 2.6in 2.6in 2.6in',
-    gridTemplateRows: '1.7in 1.7in 1.7in 1.7in 1.7in',
+    gridTemplateColumns: 'repeat(5, min-content)',
+    gridTemplateRows: 'repeat(5, min-content)',
     gridGap: '20px',
+    justifyContent: 'center',
   },
 });

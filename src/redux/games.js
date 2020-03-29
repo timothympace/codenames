@@ -76,6 +76,9 @@ const gamesSlice = createSlice({
     resetTimer(state, action) {
       const game = state[action.payload.id];
       game.timerExpire = Date.now() + 90 * 1000;
+      if (game.timerPaused) {
+        game.timerPaused = Date.now();
+      }
     },
     flipCard(state, action) {
       const game = state[action.payload.id];
