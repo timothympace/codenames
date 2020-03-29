@@ -1,8 +1,8 @@
 // @flow
 
-import React, { useState } from 'react';
+import React from 'react';
 import { css, StyleSheet } from 'aphrodite';
-import Card from './Card';
+import Card from '../../components/Card';
 import { useWebSocket } from '../../hooks';
 import { flipCard } from '../../../redux/games';
 
@@ -32,7 +32,14 @@ export default function Board({ gameId, board }: Props) {
     <div className={css(styles.board)}>
       {board.map(({ word, agent, agentIndex, revealed }) => {
         return (
-          <Card key={word} word={word} agent={agent} agentIndex={agentIndex} revealed={revealed} onClick={handleClick} />
+          <Card
+            key={word}
+            word={word}
+            agent={agent}
+            agentIndex={agentIndex}
+            revealed={revealed}
+            onClick={handleClick}
+          />
         );
       })}
     </div>

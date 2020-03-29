@@ -1,5 +1,6 @@
 // Agents
-export const RED_AGENT = 'red_agent';
-export const BLUE_AGENT = 'blue_agent';
-export const INNOCENT_BYSTANDER = 'innocent_bystander';
+export const RED_AGENT = 'red-agent';
+export const BLUE_AGENT = 'blue-agent';
+export const INNOCENT_BYSTANDER = 'bystander';
 export const ASSASSIN = 'assassin';
+export const SILHOUETTE = 'silhouette';

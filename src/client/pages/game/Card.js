@@ -2,8 +2,15 @@
 
 import React from 'react';
 import { css, StyleSheet } from 'aphrodite';
-import { RED_AGENT, BLUE_AGENT, INNOCENT_BYSTANDER, ASSASSIN } from '../../../config/constants';
+import {
+  RED_AGENT,
+  BLUE_AGENT,
+  INNOCENT_BYSTANDER,
+  ASSASSIN,
+  SILHOUETTE,
+} from '../../../config/constants';
 import mavenPro from '../../fonts/mavenPro';
+import { useKeyCodeHandler } from '../../hooks';
 
 type Props = {
   word: string,
@@ -11,20 +18,46 @@ type Props = {
   onClick: string => any,
 };
 
-const getAgentColor = (agent, agentIndex, profile = false) => {
-  const urlPiece = profile ? '-profile' : '';
-
+const getAgentBackground = (agent, agentIndex) => {
   switch (agent) {
     case RED_AGENT:
-      return `url('/images/red-agent${urlPiece}-${agentIndex}.jpg');`;
+      return `url('/images/red-agent-${agentIndex}.jpg');`;
     case BLUE_AGENT:
-      return `url('/images/blue-agent${urlPiece}-${agentIndex}.jpg');`;
+      return `url('/images/blue-agent-${agentIndex}.jpg');`;
     case INNOCENT_BYSTANDER:
-      return `url('/images/bystander${urlPiece}-${agentIndex}.jpg');`;
+      return `url('/images/bystander-${agentIndex}.jpg');`;
     case ASSASSIN:
-      return `url('/images/assassin${urlPiece}.jpg');`;
+      return `url('/images/assassin-${agentIndex}.jpg');`;
   }
 };
+
+function AgentProfile({ agent, agentIndex = 0, spymaster }) {
+  agent = spymaster ? agent : SILHOUETTE;
+  agentIndex = spymaster ? agentIndex : 0;
+
+  const dynamicStyles = StyleSheet.create({
+    agentProfile: {
+      background: `url("/images/${agent}-profile-${agentIndex}.jpg")`,
+      backgroundSize: 'contain',
+    },
+  });
+
+  return <div className={css(styles.agentProfile, dynamicStyles.agentProfile)} />;
+}
+
+function CardFront({ word, spymaster, agent, agentIndex }) {
+  return (
+    <div className={css(styles.face, styles.cardFront)}>
+      <div className={css(styles.cardFrontInner)}>
+        <div className={css(styles.cardTop)}>
+          <div className={css(styles.flippedWord)}>{word}</div>
+          <AgentProfile agent={agent} agentIndex={agentIndex} spymaster={spymaster} />
+        </div>
+        <div className={css(styles.mainWord)}>{word}</div>
+      </div>
+    </div>
+  );
+}
 
 export default function Card({ word, agent, agentIndex, revealed, onClick }: Props) {
   const url = new URL(window.location.href);
@@ -35,33 +68,25 @@ export default function Card({ word, agent, agentIndex, revealed, onClick }: Pro
       transform: revealed ? 'rotateY(180deg)' : 'none',
       cursor: !isSpymaster && !revealed ? 'pointer' : 'auto',
     },
-    silhouette: {
-      background: isSpymaster
-        ? getAgentColor(agent, agentIndex, true)
-        : 'url("/images/profile.jpg")',
-      backgroundSize: 'contain',
-    },
     cardBack: {
-      background: getAgentColor(agent, agentIndex),
+      background: `url('/images/${agent}-${agentIndex}.jpg');`,
       backgroundSize: 'contain',
     },
   });
 
+  const handleClick = isSpymaster ? undefined : () => onClick(word);
+  const handleKeyDown = useKeyCodeHandler(32, handleClick);
+
   return (
     <div
       className={css(styles.card, dynamicStyles.card)}
-      onClick={!isSpymaster && (() => onClick(word))}
+      onClick={handleClick}
+      onKeyDown={handleKeyDown}
       title={word}
+      role="button"
+      tabIndex={0}
     >
-      <div className={css(styles.face, styles.cardFront, dynamicStyles.cardFront)}>
-        <div className={css(styles.cardFrontInner)}>
-          <div className={css(styles.cardTop)}>
-            <div className={css(styles.flippedWord)}>{word}</div>
-            <div className={css(styles.silhouette, dynamicStyles.silhouette)} />
-          </div>
-          <div className={css(styles.mainWord)}>{word}</div>
-        </div>
-      </div>
+      <CardFront word={word} agent={agent} agentIndex={agentIndex} spymaster={isSpymaster} />
       <div className={css(styles.face, styles.cardBack, dynamicStyles.cardBack)} />
     </div>
   );
@@ -122,13 +147,23 @@ const styles = StyleSheet.create({
     transform: 'rotate(180deg)',
     fontSize: '20px',
   },
-  silhouette: {
+  agentProfile: {
     width: '48px',
     height: '59px',
     border: '3px solid #ebe1d8',
     marginLeft: '10px',
     boxSizing: 'border-box',
     backgroundColor: '#dbd0c2',
+  },
+  gradient: {
+    width: '36px',
+    height: '187px',
+    position: 'absolute',
+    top: '-30px',
+    left: '99px',
+    background: 'linear-gradient(#ffffffbd, transparent 28%, transparent 58%, #ffffffbd 100%)',
+    transform: 'rotate(38deg)',
+    zIndex: 1,
   },
   cardTop: {
     display: 'flex',
