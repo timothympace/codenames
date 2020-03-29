@@ -5,6 +5,7 @@ import { css, StyleSheet } from 'aphrodite';
 import mavenPro from '../../fonts/mavenPro';
 import { useKeyCodeHandler } from '../../hooks';
 import CardFront from './CardFront';
+import CardBack from './CardBack';
 
 type Props = {
   word: string,
@@ -42,7 +43,7 @@ export default function Card({ word, agent, agentIndex, revealed, onClick }: Pro
       tabIndex={0}
     >
       <CardFront word={word} agent={agent} agentIndex={agentIndex} spymaster={isSpymaster} />
-      <div className={css(styles.face, styles.cardBack, dynamicStyles.cardBack)} />
+      <CardBack agent={agent} agentIndex={agentIndex} />
     </div>
   );
 }
