@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = (_, { mode }) => ({
@@ -7,6 +8,7 @@ module.exports = (_, { mode }) => ({
     filename: `[name].[hash].bundle.js`,
     chunkFilename: `[name].[chunkhash].chunk.js`,
     sourceMapFilename: '../maps/js/[filebase].map',
+    path: path.resolve(__dirname, 'public'),
     publicPath: '/',
   },
   resolve: {
@@ -30,7 +32,6 @@ module.exports = (_, { mode }) => ({
     host: '0.0.0.0',
     port: 8085,
     historyApiFallback: true,
-    public: 'codenames.tmpace.com',
     proxy: {
       '/api': {
         target: 'http://localhost:8086',
@@ -43,7 +44,8 @@ module.exports = (_, { mode }) => ({
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'public/index.html',
+      template: 'src/client/index.html',
+      filename: 'index.html',
     }),
   ],
 });

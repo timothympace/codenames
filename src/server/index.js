@@ -4,7 +4,6 @@ import { configureStore } from '@reduxjs/toolkit';
 import watch from 'redux-watch';
 import { createGame } from '../redux/games';
 import reducer from '../redux';
-import update from 'immutability-helper';
 
 const store = configureStore({
   reducer,
@@ -18,6 +17,8 @@ const port = 8086;
 app.listen(port, () => {
   console.log(`Server bound to port ${port}`);
 });
+
+app.use(express.static('public'));
 
 app.get('/api/games/create', (req, res) => {
   dispatch(createGame());
