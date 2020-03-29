@@ -40,6 +40,7 @@ function prepareGame() {
     currentTurn,
     board,
     timerExpire: Date.now() + 90 * 1000,
+    timerPaused: Date.now(),
   };
 
   return { payload: game };
