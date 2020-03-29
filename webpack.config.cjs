@@ -30,6 +30,7 @@ module.exports = (_, { mode }) => ({
     host: '0.0.0.0',
     port: 8085,
     historyApiFallback: true,
+    public: 'codenames.tmpace.com',
     proxy: {
       '/api': {
         target: 'http://localhost:8086',
