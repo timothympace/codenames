@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { css, StyleSheet } from 'aphrodite';
 import Card from './Card';
-import useWebSocket from '../../hooks/useWebSocket';
+import { useWebSocket } from '../../hooks';
 import { flipCard } from '../../../redux/games';
 
 type Props = {

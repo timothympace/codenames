@@ -39,6 +39,7 @@ function prepareGame() {
     id,
     currentTurn,
     board,
+    timerExpire: Date.now() + 90 * 1000,
   };
 
   return { payload: game };
@@ -59,6 +60,23 @@ const gamesSlice = createSlice({
       },
       prepare: prepareGame,
     },
+    setTimer(state, action) {
+      const game = state[action.payload.id];
+      game.timerExpire = Date.now() + action.payload * 1000;
+    },
+    pauseTimer(state, action) {
+      const game = state[action.payload.id];
+      game.timerPaused = Date.now();
+    },
+    resumeTimer(state, action) {
+      const game = state[action.payload.id];
+      game.timerExpire += Date.now() - game.timerPaused;
+      game.timerPaused = null;
+    },
+    resetTimer(state, action) {
+      const game = state[action.payload.id];
+      game.timerExpire = Date.now() + 90 * 1000;
+    },
     flipCard(state, action) {
       const game = state[action.payload.id];
       const card = game.board.find(({ word }) => word === action.payload.word);
@@ -72,6 +90,6 @@ const gamesSlice = createSlice({
   },
 });
 
-export const { createGame, flipCard } = gamesSlice.actions;
+export const { createGame, flipCard, pauseTimer, resumeTimer, resetTimer } = gamesSlice.actions;
 
 export default gamesSlice.reducer;
