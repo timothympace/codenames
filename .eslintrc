@@ -28,10 +28,5 @@
     "react/no-render-return-value": 0,
     "react/require-default-props": 0,
     "strict": 0 // for babel-eslint
-  },
-  "globals": {
-    "document": false,
-    "fetch": false,
-    "WebSocket": false
   }
 }

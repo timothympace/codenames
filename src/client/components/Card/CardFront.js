@@ -1,16 +1,29 @@
+// @flow
+
 import React from 'react';
 import { css, StyleSheet } from 'aphrodite';
 import AgentProfile from './AgentProfile';
+import GradientOverlay from './GradientOverlay';
 
-export default function CardFront({ word, spymaster, agent, agentIndex }) {
+type Props = {
+  word: string,
+  spymaster: boolean,
+  agent: string,
+  agentIndex: number,
+};
+
+export default function CardFront({ word, spymaster, agent, agentIndex }: Props) {
   return (
     <div className={css(styles.face, styles.cardFront)}>
-      <div className={css(styles.cardFrontInner)}>
-        <div className={css(styles.cardTop)}>
-          <div className={css(styles.flippedWord)}>{word}</div>
-          <AgentProfile agent={agent} agentIndex={agentIndex} spymaster={spymaster} />
+      <div className={css(styles.wrapper)}>
+        <div className={css(styles.cardFrontInner)}>
+          <div className={css(styles.cardTop)}>
+            <div className={css(styles.flippedWord)}>{word}</div>
+            <AgentProfile agent={agent} agentIndex={agentIndex} spymaster={spymaster} />
+          </div>
+          <div className={css(styles.mainWord)}>{word}</div>
         </div>
-        <div className={css(styles.mainWord)}>{word}</div>
+        <GradientOverlay />
       </div>
     </div>
   );
@@ -34,7 +47,13 @@ const styles = StyleSheet.create({
     boxSizing: 'border-box',
     textAlign: 'center',
   },
+  wrapper: {
+    position: 'relative',
+    height: '100%',
+    overflow: 'hidden',
+  },
   cardFrontInner: {
+    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
@@ -44,6 +63,7 @@ const styles = StyleSheet.create({
     borderRadius: '15px',
     boxSizing: 'border-box',
     padding: '8px',
+    overflow: 'hidden',
   },
   mainWord: {
     display: 'flex',
@@ -54,6 +74,7 @@ const styles = StyleSheet.create({
     height: '39%',
     borderBottomLeftRadius: '10px',
     borderBottomRightRadius: '10px',
+    zIndex: 1,
   },
   flippedWord: {
     color: '#817c67',
@@ -63,16 +84,7 @@ const styles = StyleSheet.create({
     transform: 'rotate(180deg)',
     fontSize: '20px',
   },
-  gradient: {
-    width: '36px',
-    height: '187px',
-    position: 'absolute',
-    top: '-30px',
-    left: '99px',
-    background: 'linear-gradient(#ffffffbd, transparent 28%, transparent 58%, #ffffffbd 100%)',
-    transform: 'rotate(38deg)',
-    zIndex: 1,
-  },
+
   cardTop: {
     display: 'flex',
     height: '54%',

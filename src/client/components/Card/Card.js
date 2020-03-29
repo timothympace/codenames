@@ -51,7 +51,6 @@ const styles = StyleSheet.create({
   card: {
     width: '2.6in',
     height: '1.7in',
-    position: 'relative',
     transition: 'transform .5s ease',
     transformStyle: 'preserve-3d',
     fontFamily: [mavenPro],

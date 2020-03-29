@@ -1,0 +1,8 @@
+{
+  "globals": {
+    "document": false,
+    "fetch": false,
+    "WebSocket": false,
+    "window": false
+  }
+}
