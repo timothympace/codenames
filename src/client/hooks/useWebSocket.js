@@ -2,60 +2,67 @@
 
 import { useEffect, useCallback, useRef } from 'react';
 
+// Object used to contain active web sockets, keyed by URI.
 const sockets = {};
 
 export default function useWebSocket(uri: string, onMessage: () => any) {
-  const wsRef = useRef();
-  const onMesssageRef = useRef(onMessage);
-  onMesssageRef.current = onMessage;
+  const subscribeRef = useRef(onMessage);
 
-  const send = useCallback((...args) => {
-    wsRef.current.send(...args);
-  }, []);
+  // Use the subscribeRef to always point
+  // to the latest version of onMessage.
+  subscribeRef.current = onMessage;
+
+  const sendMessage = useCallback(
+    (...args) => {
+      sockets[uri].socket.send(...args);
+    },
+    [uri]
+  );
 
   // Manage connection state
   useEffect(() => {
     const connect = () => {
       // Only use one websocket per uri.
       if (uri in sockets) {
-        const instance = sockets[uri];
-        instance.count += 1;
-        wsRef.current = instance.socket;
+        sockets[uri].subscribers.push(subscribeRef);
       } else {
-        wsRef.current = new WebSocket(uri);
         sockets[uri] = {
-          count: 1,
-          socket: wsRef.current,
+          subscribers: [subscribeRef],
+          socket: new WebSocket(uri),
         };
+
+        sockets[uri].socket.addEventListener('message', handleMessage);
+        sockets[uri].socket.addEventListener('close', reconnect);
       }
+    };
 
-      wsRef.current.addEventListener('open', () => {
-        // flush send buffer
-      });
+    const reconnect = () => {
+      sockets[uri].socket = new WebSocket(uri);
+      sockets[uri].socket.addEventListener('message', handleMessage);
+      sockets[uri].socket.addEventListener('close', reconnect);
+    };
 
-      // TODO, figure out reconnects.
-      //wsRef.current.addEventListener('close', connect);
+    const handleMessage = (...args) => {
+      sockets[uri].subscribers.forEach(ref => ref?.current(...args));
+    };
 
-      wsRef.current.addEventListener('message', (...args) => {
-        onMesssageRef.current(...args);
-      });
+    const cleanup = () => {
+      if (uri in sockets) {
+        const instance = sockets[uri];
+        instance.subscribers = instance.subscribers.filter(ref => ref !== subscribeRef);
+
+        if (instance.subscribers.length === 0) {
+          sockets[uri].socket.removeEventListener('close', reconnect);
+          sockets[uri].socket.close();
+          delete sockets[uri];
+        }
+      }
     };
 
     connect();
 
-    return () => {
-      if (uri in sockets) {
-        const instance = sockets[uri];
-        instance.count -= 1;
-
-        if (instance.count === 0) {
-          wsRef.current.removeEventListener('close', connect);
-          delete sockets[uri];
-          wsRef.current.close();
-        }
-      }
-    };
+    return cleanup;
   }, [uri]);
 
-  return send;
+  return sendMessage;
 }
