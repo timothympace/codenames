@@ -15,12 +15,10 @@ function GameList({ games = [] }: Props) {
 
         return (
           <li key={id}>
-            <span>{id}</span>
-            {' '}
+            <span>{id}</span>{' '}
             <span>
               <Link to={`/game/${id}`}>Play as a field operative</Link>
-            </span>
-            {' '}
+            </span>{' '}
             <span>
               <Link to={`/game/${id}?spymaster=true`}>Play as a spymaster</Link>
             </span>

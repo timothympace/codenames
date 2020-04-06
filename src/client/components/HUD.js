@@ -12,7 +12,10 @@ export default function HUD({ timerExpire, timerPaused, onResume, onPause, onRes
       >
         Resume Timer
       </button>
-      <button className={css(styles.button, timerPaused && styles.buttonDisabled)} onClick={onPause}>
+      <button
+        className={css(styles.button, timerPaused && styles.buttonDisabled)}
+        onClick={onPause}
+      >
         Pause Timer
       </button>
       <button className={css(styles.button)} onClick={onReset}>

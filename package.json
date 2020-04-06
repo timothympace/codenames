@@ -9,8 +9,13 @@
     "build": "webpack --config webpack.config.cjs --mode production",
     "dev:server": "nodemon -r esm src/server/index.js",
     "dev:client": "node -r esm ./node_modules/.bin/webpack-dev-server --config webpack.config.cjs --mode development --hot",
+    "prettier": "prettier-eslint --write \"$PWD/src/**/*.js\"",
+    "prettier:staged": "STAGED=$(git diff --staged --name-only --diff-filter=ACMR --line-prefix=$(git rev-parse --show-toplevel)/) && prettier-eslint --write $STAGED && git add $STAGED",
     "test": "jest --watch --no-cache"
   },
+  "pre-commit": [
+    "prettier:staged"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/timothympace/codenames.git"
@@ -63,7 +68,9 @@
     "html-webpack-plugin": "^3.2.0",
     "jest": "^24.9.0",
     "nodemon": "^2.0.2",
+    "pre-commit": "^1.2.2",
     "prettier": "^1.19.1",
+    "prettier-eslint-cli": "^5.0.0",
     "react-hot-loader": "^4.12.18",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",

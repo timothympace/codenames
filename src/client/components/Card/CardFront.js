@@ -4,7 +4,7 @@ import React from 'react';
 import { css, StyleSheet } from 'aphrodite';
 import AgentProfile from './AgentProfile';
 import GradientOverlay from './GradientOverlay';
-import HolePunch from "./HolePunch";
+import HolePunch from './HolePunch';
 
 type Props = {
   word: string,

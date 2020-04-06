@@ -1,7 +1,6 @@
 import { hot } from 'react-hot-loader/root';
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import Lobby from './pages/lobby';
 import Game from './pages/game';

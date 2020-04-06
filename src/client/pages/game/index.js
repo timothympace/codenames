@@ -1,19 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { useParams } from 'react-router-dom';
 import Board from './Board';
-import { useWebSocket } from '../../hooks';
-import Timer from '../../components/Timer';
+import { useGameState, useWebSocket } from '../../hooks';
 import { pauseTimer, resumeTimer, resetTimer } from '../../../redux/games';
 import HUD from '../../components/HUD';
-
-const useGameState = id => {
-  const [gameState, setGameState] = useState({});
-  useWebSocket(`ws://${window.location.host}/wsapi/games/${id}`, ({ data }) => {
-    setGameState(JSON.parse(data));
-  });
-  return gameState;
-};
 
 function Game() {
   const { id } = useParams();

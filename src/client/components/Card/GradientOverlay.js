@@ -41,21 +41,18 @@ const styles = StyleSheet.create({
     height: '157px',
     top: '-27px',
     left: '19px',
-    background:
-      'linear-gradient(-38deg, #FFFFFF8C, #FFFFFF00 50%, #FFFFFF00 60%, #FFFFFFC9)',
+    background: 'linear-gradient(-38deg, #FFFFFF8C, #FFFFFF00 50%, #FFFFFF00 60%, #FFFFFFC9)',
   },
   gradient3: {
     height: '196px',
     top: '-32px',
     left: '94px',
-    background:
-      'linear-gradient(-38deg, #FFFFFF8C, #FFFFFF00 20%, #FFFFFF00 70%, #FFFFFFC9)',
+    background: 'linear-gradient(-38deg, #FFFFFF8C, #FFFFFF00 20%, #FFFFFF00 70%, #FFFFFFC9)',
   },
   gradient4: {
     height: '179px',
     top: '-23px',
     left: '140px',
-    background:
-      'linear-gradient(-38deg, #FFFFFF8C, #FFFFFF00 20%, #FFFFFF00 70%, #FFFFFFC9)',
+    background: 'linear-gradient(-38deg, #FFFFFF8C, #FFFFFF00 20%, #FFFFFF00 70%, #FFFFFFC9)',
   },
 });

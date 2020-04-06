@@ -2,7 +2,7 @@ import uuid from 'uuid/v4';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import codenameCards from '../config/codenameCards';
 import keyCards from '../config/keyCards';
-import {RED_AGENT, BLUE_AGENT, ASSASSIN} from '../config/constants';
+import { RED_AGENT, BLUE_AGENT, ASSASSIN } from '../config/constants';
 import shuffle from '../utils/shuffle';
 import rotate2d from '../utils/rotate2d';
 

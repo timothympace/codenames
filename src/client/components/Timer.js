@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTimer } from '../hooks';
 
 type Props = {
