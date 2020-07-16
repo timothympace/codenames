@@ -43,7 +43,7 @@ export default function useWebSocket(uri: string, onMessage: () => any) {
     };
 
     const handleMessage = (...args) => {
-      sockets[uri].subscribers.forEach(ref => ref?.current(...args));
+      sockets[uri].subscribers.forEach(ref => ref.current?.(...args));
     };
 
     const cleanup = () => {

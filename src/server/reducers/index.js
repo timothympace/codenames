@@ -1,11 +1,8 @@
-// @flow
-
 import { combineReducers } from '@reduxjs/toolkit';
-
 import games from './games';
-import lobby from './lobby';
+import rooms from './rooms';
 
 export default combineReducers({
   games,
-  lobby,
+  rooms,
 });

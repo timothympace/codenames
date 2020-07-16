@@ -2,46 +2,21 @@ import React from 'react';
 
 import { useParams } from 'react-router-dom';
 import Board from './Board';
-import { useGameState, useWebSocket } from '../../hooks';
-import { pauseTimer, resumeTimer, resetTimer } from '../../../redux/games';
+import { useRoomState, useServerDispatch } from '../../hooks';
 import HUD from '../../components/HUD';
+import { pauseGameTimer, resetGameTimer, startGameTimer } from '../../../server/actions/games';
 
 function Game() {
   const { id } = useParams();
 
-  const sendMessage = useWebSocket(`ws://${window.location.host}/wsapi/games/${id}`, () => {});
+  const serverDispatch = useServerDispatch(id);
 
-  const handleResume = () => {
-    sendMessage(
-      JSON.stringify(
-        resumeTimer({
-          id,
-        })
-      )
-    );
-  };
+  const handleResume = () => serverDispatch(startGameTimer({ id }));
+  const handlePause = () => serverDispatch(pauseGameTimer({ id }));
+  const handleReset = () => serverDispatch(resetGameTimer({ id, time: 90 }));
 
-  const handlePause = () => {
-    sendMessage(
-      JSON.stringify(
-        pauseTimer({
-          id,
-        })
-      )
-    );
-  };
-
-  const handleReset = () => {
-    sendMessage(
-      JSON.stringify(
-        resetTimer({
-          id,
-        })
-      )
-    );
-  };
-
-  const { board, timerExpire, timerPaused } = useGameState(id);
+  const { game } = useRoomState(id);
+  const { board, timerExpire, timerPaused } = game;
 
   return (
     <div>

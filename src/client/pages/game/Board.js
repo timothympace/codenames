@@ -4,7 +4,7 @@ import React from 'react';
 import { css, StyleSheet } from 'aphrodite';
 import Card from '../../components/Card';
 import { useWebSocket } from '../../hooks';
-import { flipCard } from '../../../redux/games';
+import { revealCodenameCard } from '../../../server/actions/games';
 
 type Props = {
   board: Array<string>,
@@ -16,7 +16,7 @@ export default function Board({ gameId, board }: Props) {
   const handleClick = word => {
     sendMessage(
       JSON.stringify(
-        flipCard({
+        revealCodenameCard({
           id: gameId,
           word,
         })
