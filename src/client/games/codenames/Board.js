@@ -2,26 +2,20 @@
 
 import React from 'react';
 import { css, StyleSheet } from 'aphrodite';
-import Card from '../../components/Card';
-import { useWebSocket } from '../../hooks';
-import { flipCard } from '../../../redux/games';
+import Card from './Card';
+import { useSubscription } from '../../hooks';
 
 type Props = {
+  gameId: string,
   board: Array<string>,
+  role: 'spymaster' | 'operative',
 };
 
-export default function Board({ gameId, board }: Props) {
-  const sendMessage = useWebSocket(`ws://${window.location.host}/wsapi/games/${gameId}`, () => {});
+export default function Board({ gameId, board, role }: Props) {
+  const gameInstance = useSubscription(gameId);
 
   const handleClick = word => {
-    sendMessage(
-      JSON.stringify(
-        flipCard({
-          id: gameId,
-          word,
-        })
-      )
-    );
+    gameInstance.revealCard({ word });
   };
 
   if (!board) {
@@ -35,6 +29,7 @@ export default function Board({ gameId, board }: Props) {
           <Card
             key={word}
             word={word}
+            role={role}
             agent={agent}
             agentIndex={agentIndex}
             revealed={revealed}

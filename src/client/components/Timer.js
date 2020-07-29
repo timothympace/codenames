@@ -17,7 +17,7 @@ function Timer({ expires, paused }: Props) {
 
   const clock = `${minutes}:${String(seconds).padStart(2, '0')}`;
 
-  return <div role="timer">{clock}</div>;
+  return <span role="timer">{clock}</span>;
 }
 
 export default Timer;

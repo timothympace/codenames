@@ -3,19 +3,16 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import Lobby from './pages/lobby';
-import Game from './pages/game';
+import Game from './games/codenames';
+import SessionRoute from './components/SessionRoute';
 
-function Codenames() {
-  // useEffect(() => {
-  //   dispatch(createGame());
-  // }, [dispatch]);
-
+function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/game/:id">
+        <SessionRoute path="/room/:id">
           <Game />
-        </Route>
+        </SessionRoute>
         <Route path="/">
           <Lobby />
         </Route>
@@ -24,4 +21,4 @@ function Codenames() {
   );
 }
 
-export default hot(Codenames);
+export default hot(App);

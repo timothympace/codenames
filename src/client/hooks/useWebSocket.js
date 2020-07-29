@@ -21,6 +21,10 @@ export default function useWebSocket(uri: string, onMessage: () => any) {
 
   // Manage connection state
   useEffect(() => {
+    if (!uri) {
+      return;
+    }
+
     const connect = () => {
       // Only use one websocket per uri.
       if (uri in sockets) {
@@ -43,7 +47,7 @@ export default function useWebSocket(uri: string, onMessage: () => any) {
     };
 
     const handleMessage = (...args) => {
-      sockets[uri].subscribers.forEach(ref => ref?.current(...args));
+      sockets[uri].subscribers.forEach(ref => ref.current?.(...args));
     };
 
     const cleanup = () => {

@@ -1,0 +1,32 @@
+.card {
+  width: 250px;
+  height: 165px;
+  transition: transform 0.5s ease;
+  transform-style: preserve-3d;
+  text-transform: uppercase;
+  font-family: MavenPro, Helvetica, sans-serif;
+
+  &:focus {
+    outline: none;
+
+    .face {
+      box-shadow: 0 0 2px 3px blue;
+    }
+  }
+}
+
+.face {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 6% / 9%;
+  overflow: hidden;
+
+  &.back {
+    transform: rotateY(180deg);
+    background-size: cover;
+  }
+}

@@ -1,3 +1,12 @@
+[production]
+chrome >= 49
+ie 11
+firefox >= 47
+safari >= 8
+edge >= 14
+iOS >= 8
+
+[development]
 last 1 chrome version
 last 1 firefox version
 last 1 safari version

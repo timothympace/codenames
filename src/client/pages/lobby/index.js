@@ -1,28 +1,33 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import GameList from './GameList';
-import { createNewGame } from '../../../redux/games';
-import { fetchGames } from '../../../redux/lobby';
+import React, { useEffect, useState } from 'react';
+import RoomList from './RoomList';
 
 function Lobby() {
-  const games = useSelector(state => state.lobby.games);
-  const dispatch = useDispatch();
+  const [rooms, setRooms] = useState([]);
+
+  const refreshLobby = async () => {
+    const response = await fetch('/api/rooms/');
+    const data = await response.json();
+    setRooms(data);
+  };
 
   useEffect(() => {
-    dispatch(fetchGames());
-  }, [dispatch]);
+    refreshLobby();
+  }, []);
 
-  const handleClick = async () => {
-    await dispatch(createNewGame());
-    dispatch(fetchGames());
+  const handleCreateRoom = async () => {
+    await fetch('/api/rooms/create');
+    refreshLobby();
   };
 
   return (
     <div>
-      <button type="button" onClick={handleClick}>
-        Create Game
+      {rooms.length > 0 && <RoomList rooms={rooms} />}
+      <button type="button" onClick={handleCreateRoom}>
+        Create Room
       </button>
-      <GameList games={games} />
+      <button type="button" onClick={refreshLobby}>
+        Refresh Lobby
+      </button>
     </div>
   );
 }
