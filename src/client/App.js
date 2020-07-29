@@ -3,15 +3,15 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import Lobby from './pages/lobby';
-import Room from './pages/room';
+import Game from './games/codenames';
 import SessionRoute from './components/SessionRoute';
 
-function Codenames() {
+function App() {
   return (
     <Router>
       <Switch>
         <SessionRoute path="/room/:id">
-          <Room />
+          <Game />
         </SessionRoute>
         <Route path="/">
           <Lobby />
@@ -21,4 +21,4 @@ function Codenames() {
   );
 }
 
-export default hot(Codenames);
+export default hot(App);

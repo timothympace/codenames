@@ -21,6 +21,10 @@ export default function useWebSocket(uri: string, onMessage: () => any) {
 
   // Manage connection state
   useEffect(() => {
+    if (!uri) {
+      return;
+    }
+
     const connect = () => {
       // Only use one websocket per uri.
       if (uri in sockets) {

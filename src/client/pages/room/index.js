@@ -1,19 +1,22 @@
 import React from 'react';
 
 import { useParams } from 'react-router-dom';
-import { useRoomState } from '../../hooks';
+import { useSubscription } from '../../hooks';
 
 function Room() {
   const { id } = useParams();
 
-  const { players = [] } = useRoomState(id);
+  const { players = [], gameId } = useSubscription(id);
 
   return (
-    <ol>
-      {players.map(m => {
-        return <li>{m}</li>;
-      })}
-    </ol>
+    <div>
+      {gameId}
+      <ol>
+        {players.map(m => {
+          return <li>{m}</li>;
+        })}
+      </ol>
+    </div>
   );
 }
 

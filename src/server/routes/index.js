@@ -1,10 +1,9 @@
 import express from 'express';
-import watch from 'redux-watch';
-import uuid from 'uuid/v4';
-import { dispatch, store } from '../store';
-import { addPlayer, addRoom, deletePlayer } from '../actions/rooms';
+import { RootStore } from '../stores/RootStore';
 
 const router = express.Router();
+
+const store = new RootStore();
 
 router.post('/api/session', (req, res) => {
   req.session.name = req.body.name;
@@ -12,43 +11,30 @@ router.post('/api/session', (req, res) => {
 });
 
 router.get('/api/rooms', (req, res) => {
-  res.send(JSON.stringify(Object.values(store.getState().rooms)));
+  res.send(JSON.stringify(Object.values(store.roomStore.rooms)));
 });
 
 router.get('/api/rooms/create', (req, res) => {
-  const room = { id: uuid(), players: [] };
-  dispatch(addRoom(room));
+  const room = store.roomStore.createRoom();
   res.json(room);
 });
 
-router.ws('/wsapi/rooms/:id', (ws, req) => {
-  const { id } = req.params;
+router.get('/api/rooms/:roomId/creategame', (req, res) => {
+  const { roomId } = req.params;
+  const room = store.roomStore.rooms[roomId];
+  const game = store.gameStore.createGame('codenames');
 
-  // Add this connection to the rooms list of players.
-  store.dispatch(addPlayer({ id, player: req.session.name }));
+  if (room.gameId) {
+    delete store.subscriptionStore.subscriptions[room.gameId];
+  }
 
-  // Allow client to dispatch actions directly.
-  ws.onmessage = msg => {
-    const payload = JSON.parse(msg.data);
-    dispatch(payload);
-  };
+  room.setGameId(game.id);
+  res.json(game);
+});
 
-  const sendMessage = message => {
-    ws.send(JSON.stringify(message));
-  };
-
-  const room = store.getState().rooms[id];
-  sendMessage(room);
-
-  const watcher = watch(store.getState, `rooms.${id}`);
-  const handleUpdates = watcher(newVal => sendMessage(newVal));
-  const unsubscribe = store.subscribe(handleUpdates);
-
-  // When the websocket closes, remove this player from the room.
-  ws.onclose = () => {
-    unsubscribe();
-    store.dispatch(deletePlayer({ id, player: req.session.name }));
-  };
+router.ws('/wsapi/subscribe/:subscriptionId', (ws, req) => {
+  const { subscriptionId } = req.params;
+  store.subscriptionStore.subscribeToObservable(subscriptionId, ws, req);
 });
 
 export default router;
